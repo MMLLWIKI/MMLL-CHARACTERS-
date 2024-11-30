@@ -1,0 +1,273 @@
+<html><head><base href="https://fnf.html">
+<title>FNF Character Pose Viewer</title>
+<style>
+/* Kept all existing CSS */
+:root {
+  --fnf-blue: #0088FF;
+  --fnf-pink: #FF2A6D;
+  --bg-color: #222222;
+}
+
+body {
+  background: var(--bg-color);
+  color: white;
+  font-family: 'Comic Sans MS', cursive;
+  margin: 0;
+  padding: 20px;
+  height: 200vh;
+}
+
+.character-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.character {
+  background: rgba(0,0,0,0.5);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  width: 300px;
+  transition: transform 0.3s;
+  display: none;
+}
+
+.character.active {
+  display: block;
+}
+
+.character:hover {
+  transform: scale(1.05);
+}
+
+.pose-container {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pose {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.character-switcher {
+  text-align: center;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  background: var(--bg-color);
+  padding: 10px;
+  z-index: 100;
+}
+
+.character-switcher button {
+  background: var(--fnf-pink);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+  padding: 10px 20px;
+  transition: background 0.3s;
+}
+
+.character-switcher button:hover {
+  background: var(--fnf-blue);
+}
+
+.poses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pose-card {
+  background: rgba(0,0,0,0.5);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.pose-card:hover {
+  transform: scale(1.02);
+}
+
+.pose-title {
+  color: var(--fnf-pink);
+  margin-bottom: 10px;
+}
+
+.scroll-indicator {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--fnf-pink);
+  font-size: 24px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-20px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+/* Add animation for BF */
+@keyframes bfDance {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.bf-anim {
+  animation: bfDance 0.6s infinite;
+}
+</style>
+</head>
+<body>
+<h1 style="text-align: center; color: var(--fnf-pink);">Friday Night Funkin' Character Viewer</h1>
+
+<div class="character-switcher">
+  <button onclick="switchCharacter('shuaiby-char')">Shuaiby</button>
+  <button onclick="switchCharacter('bf-char')">Boyfriend</button>
+  <button onclick="switchCharacter('gf-char')">Girlfriend</button>
+</div>
+
+<div class="character-container">
+  <!-- Shuaiby Character -->
+  <div class="character active" id="shuaiby-char">
+    <h2>Shuaiby</h2>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Shuaiby Idle">
+    </div>
+  </div>
+
+  <!-- Boyfriend Character -->
+  <div class="character" id="bf-char">
+    <h2>Boyfriend</h2>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Boyfriend Idle">
+    </div>
+  </div>
+
+  <!-- Girlfriend Character -->
+  <div class="character" id="gf-char">
+    <h2>Girlfriend</h2>
+    <div class="pose-container">
+      <svg width="200" height="300" viewBox="0 0 200 300">
+        <!-- Simple GF placeholder -->
+        <rect x="60" y="50" width="80" height="100" fill="#FF2A6D"/>
+        <circle cx="100" y="30" r="30" fill="#FFB6C1"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="scroll-indicator">
+  ↓ Scroll down to see all poses ↓
+</div>
+
+<div class="poses-grid" id="bf-poses" style="display: none;">
+  <div class="pose-card">
+    <h3 class="pose-title">BF Idle</h3>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Boyfriend Idle">
+    </div>
+  </div>
+  
+  <div class="pose-card">
+    <h3 class="pose-title">BF Up</h3>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Boyfriend Up">
+    </div>
+  </div>
+
+  <div class="pose-card">
+    <h3 class="pose-title">BF Down</h3>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Boyfriend Down">
+    </div>
+  </div>
+</div>
+
+<div class="poses-grid" id="shuaiby-poses">
+  <div class="pose-card">
+    <h3 class="pose-title">Down pose</h3>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Down">
+    </div>
+  </div>
+  <div class="pose-card">
+    <h3 class="pose-title">Idle (Alt)</h3>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Shuaiby Idle Animation">
+    </div>
+  </div>
+  <div class="pose-card">
+    <h3 class="pose-title">Dance</h3>
+    <div class="pose-container">
+      <img src="/shuaibyoldidle.gif" class="pose" alt="Shuaiby Idle Animation">
+    </div>
+  </div>
+</div>
+
+<script>
+function switchCharacter(characterId) {
+  // Hide all characters
+  const characters = document.querySelectorAll('.character');
+  characters.forEach(char => char.classList.remove('active'));
+  
+  // Show selected character
+  document.getElementById(characterId).classList.add('active');
+  
+  // Show/hide appropriate pose grids
+  const shuaibyPoses = document.getElementById('shuaiby-poses');
+  const bfPoses = document.getElementById('bf-poses');
+  
+  if (characterId === 'bf-char') {
+    shuaibyPoses.style.display = 'none';
+    bfPoses.style.display = 'grid';
+  } else if (characterId === 'shuaiby-char') {
+    shuaibyPoses.style.display = 'grid';
+    bfPoses.style.display = 'none';
+  } else {
+    shuaibyPoses.style.display = 'none';
+    bfPoses.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Show Shuaiby by default
+  switchCharacter('shuaiby-char');
+  
+  // Hide scroll indicator when user scrolls
+  window.addEventListener('scroll', () => {
+    const indicator = document.querySelector('.scroll-indicator');
+    if (window.scrollY > 100) {
+      indicator.style.opacity = '0';
+      indicator.style.transition = 'opacity 0.5s';
+    }
+  });
+});
+</script>
+</body>
+</html>
